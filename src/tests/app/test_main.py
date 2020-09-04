@@ -1,9 +1,35 @@
-def test_info(client):
+from flask import Flask
+
+app = Flask(__name__)
+
+
+def test_home(client):
     response = client.get('/')
-    result = response.get_json()
-    assert result is not None
-    assert "message" in result
-    assert result["message"] == "It Works"
+    assert response.status_code == 200
+
+
+def login(client, username, password):
+    return client.post('/login', data=dict(
+        username=username,
+        password=password
+    ), follow_redirects=True)
+
+
+def logout(client):
+    return client.get('/logout', follow_redirects=True)
+
+
+# def test_messages(client):
+#     """Test that messages work."""
+
+#     login(client, main.app.config['USERNAME'], main.app.config['PASSWORD'])
+#     rv = client.post('/add', data=dict(
+#         title='<Hello>',
+#         text='<strong>HTML</strong> allowed here'
+#     ), follow_redirects=True)
+#     assert b'No entries here so far' not in rv.data
+#     assert b'&lt;Hello&gt;' in rv.data
+#     assert b'<strong>HTML</strong> allowed here' in rv.data
 
 
 # http://flask.pocoo.org/docs/1.0/testing/#testing-json-apis

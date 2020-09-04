@@ -1,10 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 from app.invalid_usage import InvalidUsage
 from app.validation import validate_greeting
 from mypkg.greetings import say_hello_to
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 
 @app.errorhandler(InvalidUsage)
@@ -16,7 +16,7 @@ def handle_invalid_usage(error):
 
 @app.route("/")
 def index() -> str:
-    return jsonify({"message": "It Works"})
+    return render_template('index.html')
 
 
 @app.route("/hello", methods=['POST'])
@@ -34,4 +34,3 @@ def hello() -> str:
 # In production this code will be run as a module.
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
-

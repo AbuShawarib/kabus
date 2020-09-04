@@ -1,13 +1,17 @@
 import pytest
-from app import main
+from app.main import app
 
 
-# http://flask.pocoo.org/docs/1.0/testing/
+# http://flask.pocoo.org/docs/1.1.x/testing/
 @pytest.fixture
-def client():
-    main.app.config['TESTING'] = True
-    client = main.app.test_client()
-    yield client
+def main_app():
+    app.config['TESTING'] = True
+    yield app
+
+
+@pytest.fixture
+def client(main_app):
+    return main_app.test_client()
 
 
 @pytest.fixture()
