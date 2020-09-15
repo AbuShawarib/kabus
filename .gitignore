@@ -6,3 +6,6 @@ bin
 share
 .vscode
 *.pyc
+include
+.pytest_cache
+static
