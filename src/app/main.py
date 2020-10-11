@@ -1,33 +1,26 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, flash, render_template, redirect, url_for
+from app.config import Config
 
-from app.invalid_usage import InvalidUsage
-from app.validation import validate_greeting
-from mypkg.greetings import say_hello_to
+from app.forms import MessageForm
 
 app = Flask(__name__, static_url_path='', static_folder='static')
+app.config.from_object(Config)
 
 
-@app.errorhandler(InvalidUsage)
-def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-
-
-@app.route("/")
+@app.route("/index")
+@app.route("/", methods=['GET', 'POST'])
 def index() -> str:
-    return render_template('index.html')
-
-
-@app.route("/hello", methods=['POST'])
-def hello() -> str:
-    errors = validate_greeting(request)
-    if errors is not None:
-        print(errors)
-        raise InvalidUsage(errors)
-    greetee = request.json.get("greetee", None)
-    response = {"message": say_hello_to(greetee)}
-    return jsonify(response)
+    form = MessageForm()
+    if form.validate_on_submit():
+        # TODO: Insert something the messages.
+        flash('Message sent.')
+        return redirect(url_for('index'))
+    else:
+        return render_template(
+            'index.html',
+            title="Khalid Abu Shawarib",
+            form=form
+        )
 
 
 # These two lines are used only while developing.

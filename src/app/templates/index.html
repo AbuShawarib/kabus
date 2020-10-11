@@ -3,49 +3,49 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Khalid Abu Shawarib</title>
+	<title>{{ title }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
 
   <!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
+	<meta property="og:title" content="{{ title }}"/>
 	<meta property="og:image" content=""/>
 	<meta property="og:url" content=""/>
 	<meta property="og:site_name" content=""/>
 	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
+	<meta name="twitter:title" content="{{ title }}" />
 	<meta name="twitter:image" content="" />
 	<meta name="twitter:url" content="" />
 	<meta name="twitter:card" content="" />
 
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory 
+	<link rel="shortcut icon" href="favicon.ico">-->
 
 	<link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
 	
 	<!-- Animate.css -->
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/animate.css">
+	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/icomoon.css">
+	<link rel="stylesheet" href="css/icomoon.css">
 	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
 	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/magnific-popup.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
 
-	<link rel="stylesheet" href="http://cdn.kabus.tech/css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 
 
 	<!-- Modernizr JS -->
-	<script src="http://cdn.kabus.tech/js/modernizr-2.6.2.min.js"></script>
+	<script src="js/modernizr-2.6.2.min.js"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
-	<script src="http://cdn.kabus.tech/js/respond.min.js"></script>
+	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
 	</head>
@@ -101,13 +101,13 @@
 					<div class="col-md-5 animate-box">
 						<div class="owl-carousel3">
 							<div class="item">
-								<img class="img-responsive about-img" src="http://cdn.kabus.tech/images/about-1.jpg" alt="">
+								<img class="img-responsive about-img" src="https://storage.googleapis.com/cdn.kabus.tech/images/about-1.jpg" alt="">
 							</div>
 							<div class="item">
-								<img class="img-responsive about-img" src="http://cdn.kabus.tech/images/about-2.png" alt="">
+								<img class="img-responsive about-img" src="https://storage.googleapis.com/cdn.kabus.tech/images/about-2.png" alt="">
 							</div>
 							<div class="item">
-								<img class="img-responsive about-img" src="http://cdn.kabus.tech/images/about-3.jpg" alt="">
+								<img class="img-responsive about-img" src="https://storage.googleapis.com/cdn.kabus.tech/images/about-3.jpg" alt="">
 							</div>
 						</div>
 					</div>
@@ -206,7 +206,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="one-forth services-img" style="background-image: url(http://cdn.kabus.tech/images/services-img-3.jpg);">
+							<div class="one-forth services-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/services-img-3.jpg);">
 							</div>
 						</div>
 					</div>
@@ -241,31 +241,61 @@
 									<li><span><i class="icon-phone4"></i></span>+ 966 533 950 228</li>
 									<li><span><i class="icon-envelope2"></i></span><a href="mailto: khalid.shawarib@gmail.com">khalid.shawarib@gmail.com</a></li>
 									<li><span><i class="icon-globe3"></i></span><a href="#">www.kabus.tech</a></li>
+									{% with messages = get_flashed_messages() %}
+										{% if messages %}
+											{% for message in messages %}
+											<li style="color: green;">{{ message }}</li>
+											{% endfor %}
+										{% endif %}
+									{% endwith %}
 								</ul>
 							</div>
 							<div class="col-md-7 col-md-push-1 animate-box fadeInUp animated">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea>
+								<form action="" method="POST" novalidate>
+									{{ form.hidden_tag() }}
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												{{ form.message(class_="form-control",  placeholder="Message", cols="30", rows="7") }}
+												{% for error in form.message.errors %}
+												<div class="invalid-feedback" style="color: red;">{{ error }}</div>
+												{% endfor %}
+												<!-- <textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea> -->
+											</div>
 										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Name">
+										<div class="col-md-6">
+											<div class="form-group">
+												{{ form.name(class_="form-control",  placeholder="Name") }}
+												{% for error in form.name.errors %}
+												<div class="invalid-feedback" style="color: red;">{{ error }}</div>
+												{% endfor %}
+												<!-- <input type="text" class="form-control" placeholder="Name"> -->
+											</div>
 										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Email">
+										<div class="col-md-6">
+											<div class="form-group">
+												{{ form.email(class_="form-control",  placeholder="Email") }}
+												{% for error in form.email.errors %}
+												<div class="invalid-feedback" style="color: red;">{{ error }}</div>
+												{% endfor %}
+												<!-- <input type="text" class="form-control" placeholder="Email"> -->
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="submit" value="Send Message" class="btn btn-primary">
+										<div class="col-md-6">
+											{{ form.recaptcha }}
+											{% for error in form.recaptcha.errors %}
+											<div class="invalid-feedback" style="color: red;">{{ error }}</div>
+											{% endfor %}
 										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<br>{{ form.submit(class_="btn btn-primary") }}
+												<!-- <input type="submit" value="Send Message" class="btn btn-primary"> -->
+											</div>
+										</div>
+
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -293,7 +323,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="work-entry animate-box">
-							<a href="work.html" class="work-img" style="background-image: url(http://cdn.kabus.tech/images/work-1.jpg);">
+							<a href="work.html" class="work-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/work-1.jpg);">
 								<div class="display-t">
 									<div class="work-name">
 										<h2>Pursuing Best</h2>
@@ -310,7 +340,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="work-entry animate-box">
-							<a href="work.html" class="work-img" style="background-image: url(http://cdn.kabus.tech/images/work-2.jpg);">
+							<a href="work.html" class="work-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/work-2.jpg);">
 								<div class="display-t">
 									<div class="work-name">
 										<h2>Coordinates</h2>
@@ -327,7 +357,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="work-entry animate-box">
-							<a href="work.html" class="work-img" style="background-image: url(http://cdn.kabus.tech/images/work-3.jpg);">
+							<a href="work.html" class="work-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/work-3.jpg);">
 								<div class="display-t">
 									<div class="work-name">
 										<h2>Cristall</h2>
@@ -344,7 +374,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="work-entry animate-box">
-							<a href="work.html" class="work-img" style="background-image: url(http://cdn.kabus.tech/images/work-4.jpg);">
+							<a href="work.html" class="work-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/work-4.jpg);">
 								<div class="display-t">
 									<div class="work-name">
 										<h2>Black</h2>
@@ -387,7 +417,7 @@
 							<div class="col-md-12">
 								<div class="article">
 									<a href="blog.html" class="blog-img">
-										<img class="img-responsive" src="http://cdn.kabus.tech/images/img-1.jpg" alt="html5 bootstrap by colorlib.com">
+										<img class="img-responsive" src="https://storage.googleapis.com/cdn.kabus.tech/images/img-1.jpg" alt="html5 bootstrap by colorlib.com">
 										<div class="overlay"></div>
 										<div class="link">
 											<span class="read">Read more</h2>
@@ -405,7 +435,7 @@
 							<div class="col-md-12">
 								<div class="article">
 									<a href="blog.html" class="blog-img">
-										<img class="img-responsive" src="http://cdn.kabus.tech/images/img-2.jpg" alt="html5 bootstrap by colorlib.com">
+										<img class="img-responsive" src="https://storage.googleapis.com/cdn.kabus.tech/images/img-2.jpg" alt="html5 bootstrap by colorlib.com">
 										<div class="overlay"></div>
 										<div class="link">
 											<span class="read">Read more</h2>
@@ -423,7 +453,7 @@
 							<div class="col-md-12">
 								<div class="article">
 									<a href="blog.html" class="blog-img">
-										<img class="img-responsive" src="http://cdn.kabus.tech/images/img-3.jpg" alt="html5 bootstrap by colorlib.com">
+										<img class="img-responsive" src="https://storage.googleapis.com/cdn.kabus.tech/images/img-3.jpg" alt="html5 bootstrap by colorlib.com">
 										<div class="overlay"></div>
 										<div class="link">
 											<span class="read">Read more</h2>
@@ -518,21 +548,21 @@
 						<!-- <div class="col-md-4 col-pb-sm">
 							<h2>Latest Blog</h2>
 							<div class="f-entry">
-								<a href="#" class="featured-img" style="background-image: url(http://cdn.kabus.tech/images/img-1.jpg);"></a>
+								<a href="#" class="featured-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/img-1.jpg);"></a>
 								<div class="desc">
 									<span>February 15, 2018</span>
 									<h3><a href="#">Art Gallery in Japan</a></h3>
 								</div>
 							</div>
 							<div class="f-entry">
-								<a href="#" class="featured-img" style="background-image: url(http://cdn.kabus.tech/images/img-2.jpg);"></a>
+								<a href="#" class="featured-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/img-2.jpg);"></a>
 								<div class="desc">
 									<span>February 9, 2018</span>
 									<h3><a href="#">A Japanese Constellation</a></h3>
 								</div>
 							</div>
 							<div class="f-entry">
-								<a href="#" class="featured-img" style="background-image: url(http://cdn.kabus.tech/images/img-3.jpg);"></a>
+								<a href="#" class="featured-img" style="background-image: url(https://storage.googleapis.com/cdn.kabus.tech/images/img-3.jpg);"></a>
 								<div class="desc">
 									<span>February 15, 2018</span>
 									<h3><a href="#">Road Trip</a></h3>
@@ -545,7 +575,6 @@
 							<p>
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy; <script>document.write(new Date().getFullYear());</script> Khalid Abu Shawarib. All rights reserved | This template is made with <i class="icon-heart4" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</p>
 						</div>
 					</div>
@@ -556,21 +585,21 @@ Copyright &copy; <script>document.write(new Date().getFullYear());</script> Khal
 	</div>
 
 	<!-- jQuery -->
-	<script src="http://cdn.kabus.tech/js/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
-	<script src="http://cdn.kabus.tech/js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
 	<!-- Bootstrap -->
-	<script src="http://cdn.kabus.tech/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<!-- Waypoints -->
-	<script src="http://cdn.kabus.tech/js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- Owl Carousel -->
-	<script src="http://cdn.kabus.tech/js/owl.carousel.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
 	<!-- Magnific Popup -->
-	<script src="http://cdn.kabus.tech/js/jquery.magnific-popup.min.js"></script>
-	<script src="http://cdn.kabus.tech/js/magnific-popup-options.js"></script>
-
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	
 	<!-- Main JS (Do not remove) -->
-	<script src="http://cdn.kabus.tech/js/main.js"></script>
+	<script src="js/main.js"></script>
 
 	</body>
 </html>
