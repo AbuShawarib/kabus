@@ -22,6 +22,11 @@ def index() -> str:
             form=form
         )
 
+@app.route("/cv", methods=['GET'])
+def cv():
+    print("Hello")
+    return redirect(url_for('static', filename='assets/cv.pdf'))
+
 
 # These two lines are used only while developing.
 # In production this code will be run as a module.
