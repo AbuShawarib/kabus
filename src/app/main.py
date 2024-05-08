@@ -24,8 +24,7 @@ def index() -> str:
 
 @app.route("/cv", methods=['GET'])
 def cv():
-    print("Hello")
-    return redirect(url_for('static', filename='assets/cv.pdf'))
+    return redirect('https://storage.googleapis.com/cdn.kabus.tech/assets/cv.pdf')
 
 
 # These two lines are used only while developing.
